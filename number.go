@@ -3,13 +3,14 @@ package agnumber
 import (
 	"math"
 	"strconv"
+	"strings"
 
 	"github.com/pkg/errors"
 )
 
-// F64toa converts float64 value to 10-based string.
+// Float64toa converts float64 value to 10-based string.
 // Function takes optional argument - precision - which is described in strconv.FormatFloat
-func F64toa(x float64, precision ...int) string {
+func Float64toa(x float64, precision ...int) string {
 	p := -1
 	if len(precision) > 0 {
 		p = precision[0]
@@ -19,24 +20,16 @@ func F64toa(x float64, precision ...int) string {
 
 // Atoi64 converts 10-based string into int64 value.
 func Atoi64(s string) (int64, error) {
+	s = strings.TrimSpace(s)
 	n, err := strconv.ParseInt(s, 10, 64)
 	return n, errors.Wrap(err, "can't parse int")
 }
 
 // Atof64 converts 10-based string into float64 value.
 func Atof64(s string) (float64, error) {
+	s = strings.TrimSpace(s)
 	f, err := strconv.ParseFloat(s, 64)
 	return f, errors.Wrap(err, "can't parse float")
-}
-
-// I64toa converts int64 value to 10-based string
-func I64toa(x int64) string {
-	return strconv.FormatInt(x, 10)
-}
-
-// I64tox converts int64 value to 16-based string
-func I64tox(x int64) string {
-	return strconv.FormatInt(x, 16)
 }
 
 func reduceIntSlice(a []int, start int, reduce func(float64, float64) float64) int {
